@@ -4,7 +4,6 @@ const Page = () => {
   return (
     <div>
       <h2 className="text-4xl text-center py-5">This is home page</h2>
-      <Button>Text</Button>
     </div>
   );
 };
