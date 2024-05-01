@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Button,
@@ -10,8 +11,34 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { modifyPayload } from "@/utils/modifyPayload";
+
+export interface IPatientData {
+  name: string;
+  email: string;
+  contactNumber: string;
+  address: string;
+}
+
+export interface IPatientRegisterFormData {
+  password: string;
+  patient: IPatientData;
+}
 
 const Page = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IPatientRegisterFormData>();
+
+  const onSubmit: SubmitHandler<IPatientRegisterFormData> = (values) => {
+    const data = modifyPayload(values);
+    console.log(data);
+  };
+
   return (
     <Container>
       <Stack
@@ -44,10 +71,11 @@ const Page = () => {
           </Stack>
 
           <Box>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid item md={12}>
                   <TextField
+                    {...register("patient.name")}
                     fullWidth
                     label="Name"
                     variant="outlined"
@@ -56,6 +84,7 @@ const Page = () => {
                 </Grid>
                 <Grid item md={6}>
                   <TextField
+                    {...register("patient.email")}
                     fullWidth
                     label="Email"
                     variant="outlined"
@@ -64,6 +93,7 @@ const Page = () => {
                 </Grid>
                 <Grid item md={6}>
                   <TextField
+                    {...register("password")}
                     fullWidth
                     label="Password"
                     variant="outlined"
@@ -72,6 +102,7 @@ const Page = () => {
                 </Grid>
                 <Grid item md={6}>
                   <TextField
+                    {...register("patient.contactNumber")}
                     fullWidth
                     label="Contact Number"
                     variant="outlined"
@@ -80,6 +111,7 @@ const Page = () => {
                 </Grid>
                 <Grid item md={6}>
                   <TextField
+                    {...register("patient.address")}
                     fullWidth
                     label="Address"
                     variant="outlined"
@@ -87,7 +119,7 @@ const Page = () => {
                   />
                 </Grid>
               </Grid>
-              <Button fullWidth sx={{ my: 3 }}>
+              <Button type="submit" fullWidth sx={{ my: 3 }}>
                 Register
               </Button>
               <Typography component="p" fontWeight={300}>

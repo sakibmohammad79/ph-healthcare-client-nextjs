@@ -57,6 +57,16 @@ const Page = () => {
                   />
                 </Grid>
               </Grid>
+              <Link href="/forgotpassword">
+                <Typography
+                  textAlign="end"
+                  mt={1}
+                  component="p"
+                  fontWeight={300}
+                >
+                  Forgot Password?
+                </Typography>
+              </Link>
               <Button fullWidth sx={{ my: 3 }}>
                 Please login
               </Button>
