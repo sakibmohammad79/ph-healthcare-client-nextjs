@@ -1,3 +1,4 @@
+"use client";
 import {
   Box,
   Button,
@@ -10,8 +11,40 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { loginPatient } from "@/services/actions/loginPatient";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { storeUserInfo } from "@/services/auth.services";
 
-const Page = () => {
+export type FormValues = {
+  email: string;
+  password: string;
+};
+
+const LoginPage = () => {
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      const res = await loginPatient(data);
+      if (res?.data?.accessToken) {
+        toast.success(res.message);
+        storeUserInfo(res?.data?.accessToken);
+        router.push("/");
+      } else if (res?.success === false) {
+        toast.error(res.message);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <Container>
       <Stack
@@ -38,10 +71,11 @@ const Page = () => {
             </Box>
           </Stack>
           <Box>
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 <Grid item md={6}>
                   <TextField
+                    {...register("email")}
                     fullWidth
                     label="Email"
                     variant="outlined"
@@ -50,6 +84,7 @@ const Page = () => {
                 </Grid>
                 <Grid item md={6}>
                   <TextField
+                    {...register("password")}
                     fullWidth
                     label="Password"
                     variant="outlined"
@@ -67,7 +102,7 @@ const Page = () => {
                   Forgot Password?
                 </Typography>
               </Link>
-              <Button fullWidth sx={{ my: 3 }}>
+              <Button type="submit" fullWidth sx={{ my: 3 }}>
                 Please login
               </Button>
               <Typography component="p" fontWeight={300}>
@@ -84,4 +119,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default LoginPage;

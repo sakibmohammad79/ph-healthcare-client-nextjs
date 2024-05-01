@@ -5,6 +5,7 @@ export const registerPatient = async (formData: FormData) => {
     {
       method: "POST",
       body: formData,
+      cache: "no-store",
     }
   );
   const userInfo = await res.json();

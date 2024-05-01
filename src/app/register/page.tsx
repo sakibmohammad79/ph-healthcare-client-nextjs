@@ -30,7 +30,7 @@ export interface IPatientRegisterFormData {
   patient: IPatientData;
 }
 
-const Page = () => {
+const RegisterPage = () => {
   const router = useRouter();
   const {
     register,
@@ -46,11 +46,12 @@ const Page = () => {
       const res = await registerPatient(data);
       console.log(res);
       if (res?.success === true) {
-        toast.success(res.message);
+        toast.success(res?.message);
         router.push("/login");
+      } else if (res?.success === false) {
+        toast.error(res?.message);
       }
     } catch (err: any) {
-      console.log(err.message);
       toast.error(err.message);
     }
   };
@@ -152,4 +153,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default RegisterPage;
