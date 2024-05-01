@@ -14,7 +14,9 @@ import Link from "next/link";
 const Page = () => {
   return (
     <Container>
-      <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+      <Stack
+        sx={{ height: "100vh", justifyContent: "center", alignItems: "center" }}
+      >
         <Box
           sx={{
             maxWidth: "600px",
@@ -90,7 +92,9 @@ const Page = () => {
               </Button>
               <Typography component="p" fontWeight={300}>
                 Do you have already an account?{" "}
-                <Link href="/login">Please Login</Link>
+                <Link href="/login" color="primary.main">
+                  Please Login
+                </Link>
               </Typography>
             </form>
           </Box>
