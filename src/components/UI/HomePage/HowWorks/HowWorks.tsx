@@ -85,6 +85,50 @@ const HowWorks = () => {
           </Grid>
         </Grid>
       </Grid>
+      <Stack
+        direction="row"
+        justifyContent="space-around"
+        alignItems="center"
+        boxShadow={1}
+        padding={4}
+        borderRadius={4}
+        mb={16}
+        color="white"
+        style={{ backgroundColor: "rgb(0, 0, 300)" }}
+      >
+        <Box textAlign="center">
+          <Typography variant="h3" component="h6">
+            180+
+          </Typography>
+          <Typography variant="h6" component="h6">
+            Expert Doctors
+          </Typography>
+        </Box>
+        <Box textAlign="center">
+          <Typography variant="h3" component="h6">
+            26+
+          </Typography>
+          <Typography variant="h6" component="h6">
+            Expert Services
+          </Typography>
+        </Box>
+        <Box textAlign="center">
+          <Typography variant="h3" component="h6">
+            180+
+          </Typography>
+          <Typography variant="h6" component="h6">
+            Happy Patients
+          </Typography>
+        </Box>
+        <Box textAlign="center">
+          <Typography variant="h3" component="h6">
+            150+
+          </Typography>
+          <Typography variant="h6" component="h6">
+            Best Award Winners
+          </Typography>
+        </Box>
+      </Stack>
     </Container>
   );
 };
