@@ -94,7 +94,11 @@ const HowWorks = () => {
         borderRadius={4}
         mb={16}
         color="white"
-        style={{ backgroundColor: "rgb(0, 0, 300)" }}
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgb(0, 51, 202), rgb(0, 170, 230))",
+          backgroundSize: "100% 100%",
+        }}
       >
         <Box textAlign="center">
           <Typography variant="h3" component="h6">
