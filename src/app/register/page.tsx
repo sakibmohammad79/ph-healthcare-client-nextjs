@@ -23,14 +23,17 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 
 const patientRegisterValidationSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 charcters!"),
   patient: z.object({
-    name: z.string().min(1, "Enter your name!"),
-    email: z.string().email("Enter your valid email address!"),
-    address: z.string().min(1, "Enter your address!"),
-    contactNumber: z.string().regex(/^\d{11}$/, "Enter a valid phone number!"),
+    name: z.string().min(1, "Please enter your name!"),
+    email: z.string().email("Please enter your valid email address!"),
+    address: z.string().min(1, "Please enter your address!"),
+    contactNumber: z
+      .string()
+      .regex(/^\d{11}$/, "Please enter a valid phone number!"),
   }),
 });
 
@@ -45,6 +48,7 @@ const defaultValues = {
 };
 
 const RegisterPage = () => {
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const onSubmit = async (values: FieldValues) => {
@@ -64,6 +68,8 @@ const RegisterPage = () => {
           storeUserInfo(result?.data?.accessToken);
           router.push("/");
         }
+      } else {
+        setError(res.message);
       }
     } catch (err: any) {
       toast.error(err.message);
@@ -100,7 +106,22 @@ const RegisterPage = () => {
               </Typography>
             </Box>
           </Stack>
-
+          {/* showing error */}
+          {error && (
+            <Box>
+              <Typography
+                sx={{
+                  mb: 2,
+                  padding: "1px",
+                  borderRadius: "4px",
+                  color: "white",
+                  backgroundColor: "red",
+                }}
+              >
+                {error}
+              </Typography>
+            </Box>
+          )}
           <Box>
             <PHForm
               onSubmit={onSubmit}
