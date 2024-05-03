@@ -17,19 +17,23 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { storeUserInfo } from "@/services/auth.services";
 import PHForm from "@/components/Forms/PHForm";
+import PHInput from "@/components/Forms/PHInput";
 
 const LoginPage = () => {
   const router = useRouter();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
+      console.log(data);
       const res = await loginPatient(data);
+      console.log("res: ", res);
       if (res?.data?.accessToken) {
         toast.success(res.message);
         storeUserInfo(res?.data?.accessToken);
         router.push("/");
-      } else if (res?.success === false) {
-        toast.error(res.message);
       }
+      //else if (res?.success === false) {
+      //   toast.error(res.message);
+      // }
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -64,20 +68,20 @@ const LoginPage = () => {
             <PHForm onSubmit={onSubmit}>
               <Grid container spacing={2}>
                 <Grid item md={6}>
-                  <TextField
-                    {...register("email")}
-                    fullWidth
+                  <PHInput
+                    fullWidth={true}
                     label="Email"
-                    variant="outlined"
+                    name="email"
+                    type="text"
                     size="small"
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
-                    {...register("password")}
-                    fullWidth
+                  <PHInput
+                    fullWidth={true}
                     label="Password"
-                    variant="outlined"
+                    name="password"
+                    type="text"
                     size="small"
                   />
                 </Grid>

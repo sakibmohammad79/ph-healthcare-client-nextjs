@@ -15,7 +15,6 @@ const PHForm = ({ children, onSubmit }: IFormProps) => {
   const methods = useForm();
 
   const submit = (data: FieldValues) => {
-    console.log(data);
     onSubmit(data);
   };
   return (
