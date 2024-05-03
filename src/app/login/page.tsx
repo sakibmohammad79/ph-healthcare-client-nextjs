@@ -23,17 +23,14 @@ const LoginPage = () => {
   const router = useRouter();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      console.log(data);
       const res = await loginPatient(data);
-      console.log("res: ", res);
       if (res?.data?.accessToken) {
         toast.success(res.message);
         storeUserInfo(res?.data?.accessToken);
         router.push("/");
+      } else if (res?.success === false) {
+        toast.error(res.message);
       }
-      //else if (res?.success === false) {
-      //   toast.error(res.message);
-      // }
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -73,7 +70,6 @@ const LoginPage = () => {
                     label="Email"
                     name="email"
                     type="text"
-                    size="small"
                   />
                 </Grid>
                 <Grid item md={6}>
@@ -82,7 +78,6 @@ const LoginPage = () => {
                     label="Password"
                     name="password"
                     type="text"
-                    size="small"
                   />
                 </Grid>
               </Grid>

@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import assets from "@/assets";
 import Link from "next/link";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
 import { modifyPayload } from "@/utils/modifyPayload";
 
 import { toast } from "sonner";
@@ -19,29 +19,13 @@ import { useRouter } from "next/navigation";
 import { registerPatient } from "@/services/actions/registerPatient";
 import { loginPatient } from "@/services/actions/loginPatient";
 import { storeUserInfo } from "@/services/auth.services";
-
-export interface IPatientData {
-  name: string;
-  email: string;
-  contactNumber: string;
-  address: string;
-}
-
-export interface IPatientRegisterFormData {
-  password: string;
-  patient: IPatientData;
-}
+import PHForm from "@/components/Forms/PHForm";
+import PHInput from "@/components/Forms/PHInput";
 
 const RegisterPage = () => {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<IPatientRegisterFormData>();
 
-  const onSubmit: SubmitHandler<IPatientRegisterFormData> = async (values) => {
+  const onSubmit = async (values: FieldValues) => {
     const data = modifyPayload(values);
 
     try {
@@ -58,8 +42,6 @@ const RegisterPage = () => {
           storeUserInfo(result?.data?.accessToken);
           router.push("/");
         }
-      } else if (res?.success === false) {
-        toast.error(res?.message);
       }
     } catch (err: any) {
       toast.error(err.message);
@@ -98,51 +80,51 @@ const RegisterPage = () => {
           </Stack>
 
           <Box>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <PHForm onSubmit={onSubmit}>
               <Grid container spacing={2}>
                 <Grid item md={12}>
-                  <TextField
-                    {...register("patient.name")}
-                    fullWidth
+                  <PHInput
+                    name="patient.name"
+                    fullWidth={true}
                     label="Name"
-                    variant="outlined"
-                    size="small"
+                    type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
-                    {...register("patient.email")}
-                    fullWidth
+                  <PHInput
+                    name="patient.email"
+                    fullWidth={true}
                     label="Email"
-                    variant="outlined"
-                    size="small"
+                    type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
-                    {...register("password")}
-                    fullWidth
+                  <PHInput
+                    name="password"
+                    fullWidth={true}
                     label="Password"
-                    variant="outlined"
-                    size="small"
+                    type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
-                    {...register("patient.contactNumber")}
-                    fullWidth
+                  <PHInput
+                    name="patient.contactNumber"
+                    fullWidth={true}
                     label="Contact Number"
-                    variant="outlined"
-                    size="small"
+                    type="text"
+                    required={true}
                   />
                 </Grid>
                 <Grid item md={6}>
-                  <TextField
-                    {...register("patient.address")}
-                    fullWidth
+                  <PHInput
+                    name="patient.address"
+                    fullWidth={true}
                     label="Address"
-                    variant="outlined"
-                    size="small"
+                    type="text"
+                    required={true}
                   />
                 </Grid>
               </Grid>
@@ -155,7 +137,7 @@ const RegisterPage = () => {
                   Please Login
                 </Link>
               </Typography>
-            </form>
+            </PHForm>
           </Box>
         </Box>
       </Stack>
