@@ -7,7 +7,7 @@ type TPhInputProps = {
   size?: "small" | "medium";
   fullWidth?: boolean;
   placeholder?: string;
-  required: boolean;
+  required?: boolean;
   sx?: SxProps;
 };
 const PHInput = ({
@@ -17,13 +17,14 @@ const PHInput = ({
   type = "text",
   fullWidth,
   sx,
+  required,
 }: TPhInputProps) => {
   const { control } = useFormContext();
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field }) => (
+      render={({ field, fieldState: { error } }) => (
         <TextField
           sx={{ ...sx }}
           {...field}
@@ -33,6 +34,9 @@ const PHInput = ({
           type={type}
           fullWidth={fullWidth}
           placeholder={label}
+          required={required}
+          error={!!error?.message}
+          helperText={error?.message}
         >
           {" "}
         </TextField>
