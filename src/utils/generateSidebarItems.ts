@@ -1,5 +1,6 @@
 import { USER_ROLE } from "@/constant/role";
 import { DrawerItems, UserRole } from "@/types";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
 export const drawerItems = (role: UserRole) => {
   const roleMenus: DrawerItems[] = [];
@@ -9,12 +10,12 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Dashboard",
           path: `${role}`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Manage Users",
           path: `${role}/manage-users`,
-          icon: "df",
+          icon: DashboardIcon,
         }
       );
       break;
@@ -23,32 +24,32 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Dashboard",
           path: `${role}`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Specialties",
           path: `${role}/specialties`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Doctors",
           path: `${role}/doctors`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Schedules",
           path: `${role}/Schedules`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Appointments",
           path: `${role}/appointments`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Reviews",
           path: `${role}/reviews`,
-          icon: "df",
+          icon: DashboardIcon,
         }
       );
       break;
@@ -57,17 +58,17 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Dashboard",
           path: `${role}`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Schedules",
           path: `${role}/schedules`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Appointments",
           path: `${role}/appointments`,
-          icon: "df",
+          icon: DashboardIcon,
         }
       );
       break;
@@ -76,17 +77,17 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Appointments",
           path: `${role}/appointments`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Prescriptions",
           path: `${role}/prescriptions`,
-          icon: "df",
+          icon: DashboardIcon,
         },
         {
           title: "Payment History",
           path: `${role}/payment-history`,
-          icon: "df",
+          icon: DashboardIcon,
         }
       );
       break;
