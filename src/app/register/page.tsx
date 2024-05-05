@@ -66,7 +66,7 @@ const RegisterPage = () => {
         console.log("login", result);
         if (result?.data?.accessToken) {
           storeUserInfo(result?.data?.accessToken);
-          router.push("/");
+          router.push("/dashboard");
         }
       } else {
         setError(res.message);
