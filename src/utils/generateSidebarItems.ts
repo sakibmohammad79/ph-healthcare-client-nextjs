@@ -38,7 +38,7 @@ export const drawerItems = (role: UserRole) => {
         },
         {
           title: "Schedules",
-          path: `${role}/Schedules`,
+          path: `${role}/schedules`,
           icon: DashboardIcon,
         },
         {
