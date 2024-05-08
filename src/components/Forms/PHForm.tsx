@@ -32,9 +32,11 @@ const PHForm = ({
     formConfig["defaultValues"] = defaultValues;
   }
   const methods = useForm(formConfig);
+  const { reset } = methods;
 
   const submit = (data: FieldValues) => {
     onSubmit(data);
+    reset();
   };
   return (
     <FormProvider {...methods}>
