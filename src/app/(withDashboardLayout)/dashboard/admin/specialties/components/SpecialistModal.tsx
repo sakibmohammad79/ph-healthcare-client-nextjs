@@ -7,15 +7,23 @@ import { modifyPayload } from "@/utils/modifyPayload";
 import { Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 export type TModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SpecialityModal = ({ open, setOpen }: TModalProps) => {
-  const handleCreateSpeciality = (values: FieldValues) => {
+  const [createSpecialty] = useCreateSpecialtyMutation();
+  const handleCreateSpeciality = async (values: FieldValues) => {
     const data = modifyPayload(values);
     try {
+      const res = await createSpecialty(data).unwrap();
+      if (res?.id) {
+        toast.success("Speciality created successfully!");
+        setOpen(false);
+      }
+      console.log("create specialties: ", res);
     } catch (error: any) {
       console.log(error.message);
     }
