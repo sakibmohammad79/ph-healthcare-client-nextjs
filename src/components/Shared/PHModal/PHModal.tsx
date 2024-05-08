@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
+import { SxProps, styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -14,6 +14,7 @@ export type TModalProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
   children: React.ReactNode;
+  sx?: SxProps;
 };
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -26,10 +27,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function PHModal({
-  open,
+  open = false,
   setOpen,
-  title,
+  title = "",
   children,
+  sx,
 }: TModalProps) {
   const handleClose = () => {
     setOpen(false);
@@ -41,6 +43,7 @@ export default function PHModal({
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        sx={{ ...sx }}
       >
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           {title}
@@ -58,11 +61,7 @@ export default function PHModal({
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>{children}</DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
+        <DialogActions></DialogActions>
       </BootstrapDialog>
     </React.Fragment>
   );
