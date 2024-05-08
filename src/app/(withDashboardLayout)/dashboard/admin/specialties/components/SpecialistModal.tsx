@@ -2,6 +2,8 @@ import PHFile from "@/components/Forms/PHFile";
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import PHModal from "@/components/Shared/PHModal/PHModal";
+import { useCreateSpecialtyMutation } from "@/redux/api/specialtiesApi";
+import { modifyPayload } from "@/utils/modifyPayload";
 import { Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
@@ -10,9 +12,13 @@ export type TModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-const SpecialistModal = ({ open, setOpen }: TModalProps) => {
+const SpecialityModal = ({ open, setOpen }: TModalProps) => {
   const handleCreateSpeciality = (values: FieldValues) => {
-    console.log(values);
+    const data = modifyPayload(values);
+    try {
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
   return (
     <PHModal open={open} setOpen={setOpen} title="Create A New Speciality">
@@ -33,4 +39,4 @@ const SpecialistModal = ({ open, setOpen }: TModalProps) => {
   );
 };
 
-export default SpecialistModal;
+export default SpecialityModal;
