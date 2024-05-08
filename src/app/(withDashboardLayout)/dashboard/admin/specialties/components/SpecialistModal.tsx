@@ -11,7 +11,9 @@ export type TModalProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const SpecialistModal = ({ open, setOpen }: TModalProps) => {
-  const handleCreateSpeciality = (values: FieldValues) => {};
+  const handleCreateSpeciality = (values: FieldValues) => {
+    console.log(values);
+  };
   return (
     <PHModal open={open} setOpen={setOpen} title="Create A New Speciality">
       <PHForm onSubmit={handleCreateSpeciality}>
@@ -20,7 +22,7 @@ const SpecialistModal = ({ open, setOpen }: TModalProps) => {
             <PHInput name="title" label="Title"></PHInput>
           </Grid>
           <Grid item md={6}>
-            <PHFile></PHFile>
+            <PHFile name="file" label="Upload File"></PHFile>
           </Grid>
         </Grid>
         <Button sx={{ mt: 2 }} type="submit">
