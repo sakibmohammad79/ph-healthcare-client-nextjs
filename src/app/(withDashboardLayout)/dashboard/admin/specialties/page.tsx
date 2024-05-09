@@ -2,9 +2,12 @@
 import { Box, Button, Stack, TextField } from "@mui/material";
 import { useState } from "react";
 import SpecialityModal from "./components/SpecialistModal";
+import { useGetAllSpecialiesQuery } from "@/redux/api/specialtiesApi";
 
 const SpecialityPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const { data, isLoading } = useGetAllSpecialiesQuery({});
   return (
     <Box>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
@@ -15,6 +18,9 @@ const SpecialityPage = () => {
         ></SpecialityModal>
         <TextField size="small" placeholder="Search Specialist"></TextField>
       </Stack>
+      <Box>
+        <h1>{data?.length}</h1>
+      </Box>
     </Box>
   );
 };
