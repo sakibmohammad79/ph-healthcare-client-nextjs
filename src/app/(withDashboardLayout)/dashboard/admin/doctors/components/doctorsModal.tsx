@@ -47,7 +47,7 @@ const DoctorsModal = ({ open, setOpen }: TModalProps) => {
         setOpen(false);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.error(error.message);
     }
   };
   return (
@@ -80,7 +80,7 @@ const DoctorsModal = ({ open, setOpen }: TModalProps) => {
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
             <PHInput
-              name=" doctor.contactNumber"
+              name="doctor.contactNumber"
               label="Contact Number"
               fullWidth={true}
             ></PHInput>
