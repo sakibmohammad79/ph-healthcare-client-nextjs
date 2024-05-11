@@ -15,7 +15,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 const DoctorPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { data, isLoading } = useGetAllDoctorsQuery({});
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const query: Record<string, any> = {};
+  query["searchTerm"] = searchTerm;
+  const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
   const doctors = data?.doctors;
   const meta = data?.meta;
 
@@ -35,6 +39,8 @@ const DoctorPage = () => {
     { field: "email", headerName: "Email", flex: 1 },
     { field: "contactNumber", headerName: "Contact Number", flex: 1 },
     { field: "currentWorkingPlace", headerName: "Working place", flex: 1 },
+    { field: "gender", headerName: "Gender", flex: 1 },
+    { field: "appointmentFee", headerName: "Appointment Fee", flex: 1 },
     {
       field: "action",
       headerName: "Action",
@@ -61,7 +67,11 @@ const DoctorPage = () => {
           open={isModalOpen}
           setOpen={setIsModalOpen}
         ></DoctorsModal>
-        <TextField size="small" placeholder="Search Doctors"></TextField>
+        <TextField
+          onChange={(e) => setSearchTerm(e.target.value)}
+          size="small"
+          placeholder="Search Doctors"
+        ></TextField>
       </Stack>
       {!isLoading ? (
         <Box my={2} justifyContent="center" alignItems="center">
