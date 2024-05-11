@@ -9,10 +9,14 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import DoctorsModal from "./components/doctorsModal";
-import { useGetAllDoctorsQuery } from "@/redux/api/doctorsApi";
+import {
+  useDeleteDoctorMutation,
+  useGetAllDoctorsQuery,
+} from "@/redux/api/doctorsApi";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDebounced } from "@/redux/hook";
+import { toast } from "sonner";
 
 const DoctorPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -28,15 +32,17 @@ const DoctorPage = () => {
     query["searchTerm"] = searchTerm;
   }
   const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
+  const [deleteDoctor] = useDeleteDoctorMutation();
   const doctors = data?.doctors;
   const meta = data?.meta;
 
-  const handleSpecialityDelete = async (id: string) => {
+  const handleDoctorDelete = async (id: string) => {
+    console.log(id);
     try {
-      // const res = await deleteSpeciality(id).unwrap();
-      // if (res?.id) {
-      //   toast.success("Speciality delete successfully!");
-      // }
+      const res = await deleteDoctor(id).unwrap();
+      if (res?.id) {
+        toast.success("doctor deleted successfully!");
+      }
     } catch (err: any) {
       console.log(err.message);
     }
@@ -58,7 +64,7 @@ const DoctorPage = () => {
       renderCell: ({ row }) => {
         return (
           <IconButton
-            onClick={() => handleSpecialityDelete(row?.id)}
+            onClick={() => handleDoctorDelete(row?.id)}
             aria-label="delete"
           >
             <DeleteIcon />
