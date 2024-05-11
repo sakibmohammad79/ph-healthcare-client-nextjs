@@ -12,13 +12,21 @@ import DoctorsModal from "./components/doctorsModal";
 import { useGetAllDoctorsQuery } from "@/redux/api/doctorsApi";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useDebounced } from "@/redux/hook";
 
 const DoctorPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const [searchTerm, setSearchTerm] = useState<string>("");
   const query: Record<string, any> = {};
-  query["searchTerm"] = searchTerm;
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const bouncedValue = useDebounced({
+    searchQuery: searchTerm,
+    delay: 800,
+  });
+
+  if (!!bouncedValue) {
+    query["searchTerm"] = searchTerm;
+  }
   const { data, isLoading } = useGetAllDoctorsQuery({ ...query });
   const doctors = data?.doctors;
   const meta = data?.meta;
