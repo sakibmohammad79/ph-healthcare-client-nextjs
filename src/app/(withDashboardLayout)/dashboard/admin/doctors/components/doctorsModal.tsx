@@ -2,10 +2,13 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import { PHSelect } from "@/components/Forms/PHSelect";
 import PHFullScreenModal from "@/components/Shared/PHFullScreenModal/PHFullScreenModal";
+import { useCreateDoctorMutation } from "@/redux/api/doctorsApi";
 import { genderItem } from "@/types";
+import { modifyPayload } from "@/utils/modifyPayload";
 import { Box, Button, Grid } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 type TModalProps = {
   open: boolean;
@@ -30,8 +33,22 @@ const defaultValues = {
 };
 
 const DoctorsModal = ({ open, setOpen }: TModalProps) => {
-  const handleCreateDoctors = (values: FieldValues) => {
-    console.log(values);
+  const [createDoctor] = useCreateDoctorMutation();
+  const handleCreateDoctors = async (values: FieldValues) => {
+    values.doctor.appointmentFee = Number(values.doctor.appointmentFee);
+    values.doctor.experience = Number(values.doctor.experience);
+    const data = modifyPayload(values);
+
+    try {
+      const res = await createDoctor(data).unwrap();
+      console.log(res);
+      if (res.id) {
+        toast.success("Doctor created successfully1");
+        setOpen(false);
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
   };
   return (
     <PHFullScreenModal open={open} setOpen={setOpen} title="Create a doctor">
@@ -58,6 +75,7 @@ const DoctorsModal = ({ open, setOpen }: TModalProps) => {
               name="password"
               label="Password"
               fullWidth={true}
+              type="password"
             ></PHInput>
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
@@ -86,6 +104,7 @@ const DoctorsModal = ({ open, setOpen }: TModalProps) => {
               name="doctor.experience"
               label="Experience"
               fullWidth={true}
+              type="number"
             ></PHInput>
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
@@ -101,6 +120,7 @@ const DoctorsModal = ({ open, setOpen }: TModalProps) => {
               name="doctor.appointmentFee"
               label="Appointment Fee"
               fullWidth={true}
+              type="number"
             ></PHInput>
           </Grid>
           <Grid item xs={12} sm={12} md={4}>
