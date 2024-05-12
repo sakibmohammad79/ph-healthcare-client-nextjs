@@ -2,22 +2,35 @@ import PHDatePicker from "@/components/Forms/PHDatePicker";
 import PHForm from "@/components/Forms/PHForm";
 import PHTimePicker from "@/components/Forms/PHTimePicker";
 import PHModal from "@/components/Shared/PHModal/PHModal";
+import { useCreateSchedulesMutation } from "@/redux/api/scheduleApi";
 import { dateFormatter } from "@/utils/dateFormatter";
 import { timeFormatter } from "@/utils/timeFormatter";
 import { Button, Grid, TextField } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 type TScheduleModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const ScheduleModal = ({ open, setOpen }: TScheduleModalProps) => {
-  const handleCreateSchedule = (values: FieldValues) => {
+  const [createSchedules] = useCreateSchedulesMutation();
+  const handleCreateSchedule = async (values: FieldValues) => {
     values.startDate = dateFormatter(values.startDate);
     values.endDate = dateFormatter(values.endDate);
     values.startTime = timeFormatter(values.startTime);
     values.endTime = timeFormatter(values.endTime);
-    console.log(values);
+
+    try {
+      const res = await createSchedules(values);
+      console.log(res);
+      if (res?.data?.length) {
+        toast.success("Schedules created successfully!");
+        setOpen(false);
+      }
+    } catch (err: any) {
+      console.error(err.message);
+    }
   };
   return (
     <PHModal open={open} setOpen={setOpen} title="Create schedule">
