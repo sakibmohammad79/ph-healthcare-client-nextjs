@@ -1,3 +1,4 @@
+import { TMeta } from "@/types";
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
 
@@ -11,20 +12,20 @@ const scheduleApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.schedule],
     }),
-    // getAllDoctors: build.query({
-    //   query: (arg: Record<string, any>) => ({
-    //     url: "/doctor",
-    //     method: "GET",
-    //     params: arg,
-    //   }),
-    //   transformResponse: (response: IDoctor[], meta: TMeta) => {
-    //     return {
-    //       doctors: response,
-    //       meta,
-    //     };
-    //   },
-    //   providesTags: [tagTypes.doctor],
-    // }),
+    getAllSchedules: build.query({
+      query: (arg: Record<string, any>) => ({
+        url: "/schedule",
+        method: "GET",
+        params: arg,
+      }),
+      transformResponse: (response: [], meta: TMeta) => {
+        return {
+          schedules: response,
+          meta,
+        };
+      },
+      providesTags: [tagTypes.schedule],
+    }),
     // deleteDoctor: build.mutation({
     //   query: (id) => ({
     //     url: `/doctor/soft/${id}`,
@@ -35,4 +36,5 @@ const scheduleApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateSchedulesMutation } = scheduleApi;
+export const { useCreateSchedulesMutation, useGetAllSchedulesQuery } =
+  scheduleApi;
