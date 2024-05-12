@@ -2,6 +2,8 @@ import PHDatePicker from "@/components/Forms/PHDatePicker";
 import PHForm from "@/components/Forms/PHForm";
 import PHTimePicker from "@/components/Forms/PHTimePicker";
 import PHModal from "@/components/Shared/PHModal/PHModal";
+import { dateFormatter } from "@/utils/dateFormatter";
+import { timeFormatter } from "@/utils/timeFormatter";
 import { Button, Grid, TextField } from "@mui/material";
 import React from "react";
 import { FieldValues } from "react-hook-form";
@@ -11,6 +13,10 @@ type TScheduleModalProps = {
 };
 const ScheduleModal = ({ open, setOpen }: TScheduleModalProps) => {
   const handleCreateSchedule = (values: FieldValues) => {
+    values.startDate = dateFormatter(values.startDate);
+    values.endDate = dateFormatter(values.endDate);
+    values.startTime = timeFormatter(values.startTime);
+    values.endTime = timeFormatter(values.endTime);
     console.log(values);
   };
   return (
