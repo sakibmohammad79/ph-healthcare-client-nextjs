@@ -1,11 +1,11 @@
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs from "dayjs";
 import { Controller, useFormContext } from "react-hook-form";
 import { SxProps } from "@mui/material";
+import { TimePicker } from "@mui/x-date-pickers";
 
-interface IDatePicker {
+interface ITimePicker {
   name: string;
   type?: string;
   size?: "small" | "medium";
@@ -14,7 +14,7 @@ interface IDatePicker {
   label?: string;
   sx?: SxProps;
 }
-const PHDatePicker = ({
+const PHTimePicker = ({
   name,
   type,
   label,
@@ -22,8 +22,9 @@ const PHDatePicker = ({
   sx,
   fullWidth = true,
   required,
-}: IDatePicker) => {
-  const { control } = useFormContext();
+}: ITimePicker) => {
+  const { control, formState } = useFormContext();
+  const isError = formState.errors[name] !== undefined;
   return (
     <Controller
       name={name}
@@ -31,11 +32,11 @@ const PHDatePicker = ({
       defaultValue={dayjs(new Date().toDateString())}
       render={({ field: { onChange, value, ...field } }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DesktopDatePicker
+          <TimePicker
             timezone="system"
             disablePast
             {...field}
-            onChange={(date) => onChange(date)}
+            onChange={(time) => onChange(time)}
             value={value || Date.now()}
             slotProps={{
               textField: {
@@ -45,6 +46,10 @@ const PHDatePicker = ({
                 sx: { ...sx },
                 variant: "outlined",
                 label: label,
+                error: isError,
+                helperText: isError
+                  ? (formState.errors[name]?.message as string)
+                  : "",
               },
             }}
           />
@@ -54,4 +59,4 @@ const PHDatePicker = ({
   );
 };
 
-export default PHDatePicker;
+export default PHTimePicker;
