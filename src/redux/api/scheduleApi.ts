@@ -26,15 +26,18 @@ const scheduleApi = baseApi.injectEndpoints({
       },
       providesTags: [tagTypes.schedule],
     }),
-    // deleteDoctor: build.mutation({
-    //   query: (id) => ({
-    //     url: `/doctor/soft/${id}`,
-    //     method: "PATCH",
-    //   }),
-    //   invalidatesTags: [tagTypes.doctor],
-    // }),
+    deleteSchedule: build.mutation({
+      query: (id) => ({
+        url: `/schedule/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [tagTypes.schedule],
+    }),
   }),
 });
 
-export const { useCreateSchedulesMutation, useGetAllSchedulesQuery } =
-  scheduleApi;
+export const {
+  useCreateSchedulesMutation,
+  useGetAllSchedulesQuery,
+  useDeleteScheduleMutation,
+} = scheduleApi;
