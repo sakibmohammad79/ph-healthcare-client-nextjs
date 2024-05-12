@@ -18,7 +18,7 @@ const scheduleApi = baseApi.injectEndpoints({
         method: "GET",
         params: arg,
       }),
-      transformResponse: (response: [], meta: TMeta) => {
+      transformResponse: (response: any, meta: TMeta) => {
         return {
           schedules: response,
           meta,

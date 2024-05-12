@@ -10,15 +10,15 @@ export type TSchduleFrom = {
   endTime: string;
 };
 
-// import { TMeta } from "../common";
-// export interface Schedule {
-//   id: string;
-//   startDateTime: string;
-//   endDateTime: string;
-// }
-// export interface ScheduleResponse {
-//   schedules: {
-//     data: Schedule[];
-//   };
-//   meta?: TMeta;
-// }
+import { TMeta } from "../common";
+export interface Schedule {
+  id?: string;
+  startDateTime: string;
+  endDateTime: string;
+}
+export interface ScheduleResponse {
+  schedules: {
+    data: Schedule[];
+  };
+  meta?: TMeta;
+}
