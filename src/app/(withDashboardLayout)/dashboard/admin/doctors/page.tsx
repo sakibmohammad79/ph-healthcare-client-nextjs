@@ -17,6 +17,8 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useDebounced } from "@/redux/hook";
 import { toast } from "sonner";
+import EditIcon from "@mui/icons-material/Edit";
+import Link from "next/link";
 
 const DoctorPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -62,12 +64,19 @@ const DoctorPage = () => {
       align: "center",
       renderCell: ({ row }) => {
         return (
-          <IconButton
-            onClick={() => handleDoctorDelete(row?.id)}
-            aria-label="delete"
-          >
-            <DeleteIcon />
-          </IconButton>
+          <Box>
+            <IconButton
+              onClick={() => handleDoctorDelete(row?.id)}
+              aria-label="delete"
+            >
+              <DeleteIcon />
+            </IconButton>
+            <Link href={`/dashboard/admin/doctors/edit/${row?.id}`}>
+              <IconButton aria-label="edit">
+                <EditIcon />
+              </IconButton>
+            </Link>
+          </Box>
         );
       },
     },
