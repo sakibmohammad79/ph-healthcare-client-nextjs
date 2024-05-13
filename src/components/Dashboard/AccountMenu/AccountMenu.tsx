@@ -39,7 +39,9 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <KeyboardArrowDownIcon />
+            <KeyboardArrowDownIcon
+              sx={{ background: "white", borderRadius: "50%" }}
+            />
           </IconButton>
         </Tooltip>
       </Box>

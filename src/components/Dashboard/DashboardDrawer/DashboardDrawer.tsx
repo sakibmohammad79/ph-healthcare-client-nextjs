@@ -76,7 +76,7 @@ export default function DashboardDrawer({
           >
             <Box>
               <Typography variant="body2" color="gray" noWrap component="div">
-                Hi,{isLoading ? "isLoading..." : ` ${user.name}`}
+                Hi,{isLoading ? "isLoading..." : ` ${user?.name}`}
               </Typography>
               <Typography
                 variant="body2"
