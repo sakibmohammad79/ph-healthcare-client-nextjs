@@ -10,6 +10,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Sidebar from "../Sidebar/Sidebar";
 import { useGetSingleUserQuery } from "@/redux/api/userApi";
+import { Avatar, Badge, Stack } from "@mui/material";
+import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
+import AccountMenu from "../AccountMenu/AccountMenu";
 
 const drawerWidth = 240;
 
@@ -20,7 +23,7 @@ export default function DashboardDrawer({
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const { data: user, isLoading } = useGetSingleUserQuery({});
+
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -35,6 +38,9 @@ export default function DashboardDrawer({
       setMobileOpen(!mobileOpen);
     }
   };
+
+  const { data: user, isLoading } = useGetSingleUserQuery({});
+  console.log(user);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -59,18 +65,38 @@ export default function DashboardDrawer({
           >
             <MenuIcon />
           </IconButton>
-          <Box>
-            <Typography variant="body2" color="gray" noWrap component="div">
-              Hi,{isLoading ? "isLoading..." : ` ${user.name}`}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="primary.main"
-              noWrap
-              component="div"
-            >
-              Welcome to PH Health Care
-            </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+            }}
+          >
+            <Box>
+              <Typography variant="body2" color="gray" noWrap component="div">
+                Hi,{isLoading ? "isLoading..." : ` ${user.name}`}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="primary.main"
+                noWrap
+                component="div"
+              >
+                Welcome to PH Health Care
+              </Typography>
+            </Box>
+
+            <Stack direction="row" gap={3}>
+              <Badge badgeContent={1} color="primary">
+                <IconButton sx={{ background: "white" }}>
+                  <NotificationsNoneIcon color="action" />
+                </IconButton>
+              </Badge>
+              <Avatar alt={user?.name} src={user?.profilePhoto}></Avatar>
+              <AccountMenu />
+            </Stack>
           </Box>
         </Toolbar>
       </AppBar>
