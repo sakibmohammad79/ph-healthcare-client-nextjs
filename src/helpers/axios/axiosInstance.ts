@@ -1,6 +1,7 @@
 import { authKey } from "@/constant/authKey";
+import { getNewAccessToken } from "@/services/auth.services";
 import { IGenericErrorResponse, TSuccessResponse } from "@/types";
-import { getFromLocalStorage } from "@/utils/localStorage";
+import { getFromLocalStorage, setToLocalStorage } from "@/utils/localStorage";
 import axios from "axios";
 
 const instance = axios.create();
@@ -30,7 +31,7 @@ instance.interceptors.request.use(
 // Add a response interceptor
 instance.interceptors.response.use(
   //@ts-ignore
-  function (response) {
+  async function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     const responseObject: TSuccessResponse = {
@@ -39,15 +40,24 @@ instance.interceptors.response.use(
     };
     return responseObject;
   },
-  function (error) {
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
-    // Do something with response error
-    const responseObject: IGenericErrorResponse = {
-      statusCode: error?.response?.data?.statusCode || 500,
-      message: error?.response?.data?.message || "Something went wrong!",
-      errorMessages: error?.response?.data?.message,
-    };
-    return responseObject;
+
+  async function (error) {
+    const config = error.config;
+
+    if (error?.response?.status === 500) {
+      const res = await getNewAccessToken();
+      const accessToken = res?.data?.accessToken;
+      config.headers["Authorization"] = accessToken;
+      setToLocalStorage(authKey, accessToken);
+      return instance(config);
+    } else {
+      const responseObject: IGenericErrorResponse = {
+        statusCode: error?.response?.data?.statusCode || 500,
+        message: error?.response?.data?.message || "Something went wrong!",
+        errorMessages: error?.response?.data?.message,
+      };
+      return responseObject;
+    }
   }
 );
 
