@@ -1,5 +1,4 @@
 "use client";
-
 import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import { PHSelect } from "@/components/Forms/PHSelect";
@@ -31,9 +30,9 @@ const UpdateDoctorPage = ({ params }: TParams) => {
     contactNumber: data?.contactNumber || "",
     registrationNumber: data?.registrationNumber || "",
     address: data?.address || "",
-    experience: data?.experience || "",
+    experience: data?.experience || 0,
     designation: data?.designation || "",
-    appointmentFee: data?.appointmentFee || "",
+    appointmentFee: data?.appointmentFee || 0,
     gender: data?.gender || "",
     qualification: data?.qualification || "",
     currentWorkingPlace: data?.currentWorkingPlace || "",
@@ -43,10 +42,9 @@ const UpdateDoctorPage = ({ params }: TParams) => {
     values.appointmentFee = Number(values.appointmentFee);
     values.experience = Number(values.experience);
     values.id = id;
-    console.log(values);
 
     try {
-      const res = await updateDoctor({ id: id, body: values }).unwrap();
+      const res = await updateDoctor({ id: values.id, body: values }).unwrap();
       if (res?.id) {
         toast.success("Doctor update successfully!");
         router.push("/dashboard/admin/doctors");
@@ -148,7 +146,7 @@ const UpdateDoctorPage = ({ params }: TParams) => {
             </Grid>
           </Grid>
           <Box mt={4} textAlign="end">
-            <Button type="submit">Create</Button>
+            <Button type="submit">Update</Button>
           </Box>
         </PHForm>
       ) : (
