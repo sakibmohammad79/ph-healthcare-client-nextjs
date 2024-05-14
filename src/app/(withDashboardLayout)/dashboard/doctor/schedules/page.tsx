@@ -12,6 +12,7 @@ const DoctorSchedules = () => {
         open={isModalOpen}
         setOpen={setIsModalOpen}
       ></DoctorScheduleModal>
+
       <h2>Display Schedule Data</h2>
     </Box>
   );
