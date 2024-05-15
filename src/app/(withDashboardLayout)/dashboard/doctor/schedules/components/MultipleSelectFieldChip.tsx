@@ -50,16 +50,21 @@ function getStyles(name: string, personName: readonly string[], theme: Theme) {
   };
 }
 
-export default function MultipleSelectFieldChip({ schedules }: any) {
+export default function MultipleSelectFieldChip({
+  schedules,
+  selectedScheduleIds,
+  setSelectedSchedulesIds,
+}: any) {
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState<string[]>([]);
-  console.log(personName);
+  // const [personName, setPersonName] = React.useState<string[]>([]);
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+  const handleChange = (
+    event: SelectChangeEvent<typeof selectedScheduleIds>
+  ) => {
     const {
       target: { value },
     } = event;
-    setPersonName(
+    setSelectedSchedulesIds(
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
@@ -67,25 +72,25 @@ export default function MultipleSelectFieldChip({ schedules }: any) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
+      <FormControl sx={{ width: 300 }}>
         <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
           id="demo-multiple-chip"
           multiple
-          value={personName}
+          value={selectedScheduleIds}
           onChange={handleChange}
           input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
           renderValue={(selected) => (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {selected.map((value) => {
-                const selectedScheduleIds = schedules.find(
+              {selected.map((value: any) => {
+                const selectedScheduleFieldIds = schedules.find(
                   (schedule: any) => schedule.id === value
                 );
-                if (!selectedScheduleIds) return null;
+                if (!selectedScheduleFieldIds) return null;
                 const formattedTimeSlot = `${timeFormatter(
-                  selectedScheduleIds.startDateTime
-                )} - ${timeFormatter(selectedScheduleIds.endDateTime)}`;
+                  selectedScheduleFieldIds.startDateTime
+                )} - ${timeFormatter(selectedScheduleFieldIds.endDateTime)}`;
                 return <Chip key={value} label={formattedTimeSlot} />;
               })}
             </Box>
@@ -96,7 +101,7 @@ export default function MultipleSelectFieldChip({ schedules }: any) {
             <MenuItem
               key={schedule.id}
               value={schedule.id}
-              style={getStyles(schedule.id, personName, theme)}
+              style={getStyles(schedule.id, selectedScheduleIds, theme)}
             >
               {`${timeFormatter(schedule.startDateTime)} - ${timeFormatter(
                 schedule.endDateTime

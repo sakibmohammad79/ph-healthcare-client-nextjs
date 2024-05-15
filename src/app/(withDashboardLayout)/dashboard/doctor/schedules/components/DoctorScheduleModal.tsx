@@ -7,6 +7,11 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import { useGetAllSchedulesQuery } from "@/redux/api/scheduleApi";
 import MultipleSelectFieldChip from "./MultipleSelectFieldChip";
+import { Stack } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
+import { useCreateDoctorSchedulesMutation } from "@/redux/api/doctorScheduleApi";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type TModalProps = {
   open: boolean;
@@ -17,7 +22,10 @@ const DoctorScheduleModal = ({ open, setOpen }: TModalProps) => {
     dayjs(new Date()).toISOString()
   );
 
-  const [selectedSchedulesIds, setSelectedSchedulesIds] = useState<string>("");
+  const [selectedSchedulesIds, setSelectedSchedulesIds] = useState<string[]>(
+    []
+  );
+  console.log(selectedSchedulesIds);
 
   const query: Record<string, any> = {};
   if (!!selectedDate) {
@@ -33,22 +41,54 @@ const DoctorScheduleModal = ({ open, setOpen }: TModalProps) => {
       .toISOString();
   }
 
-  const { data, isLoading } = useGetAllSchedulesQuery(query);
+  const { data } = useGetAllSchedulesQuery(query);
   const schedules = data?.schedules?.data;
-  console.log(schedules);
+
+  const [createDoctorSchedules, { isLoading }] =
+    useCreateDoctorSchedulesMutation();
+
+  const handleCreateDoctorSchedules = async () => {
+    try {
+      const res = await createDoctorSchedules({
+        scheduleIds: selectedSchedulesIds,
+      }).unwrap();
+      if (res?.count > 0) {
+        toast.success("Doctor schedules created success!");
+        setOpen(false);
+      }
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <PHModal open={open} setOpen={setOpen} title="Create Doctor Schedule">
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          label="Controlled picker"
-          value={dayjs(selectedDate)}
-          onChange={(newValue) =>
-            setSelectedDate(dayjs(newValue).toISOString())
-          }
+      <Stack direction="column" gap={2}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            label="Controlled picker"
+            value={dayjs(selectedDate)}
+            onChange={(newValue) =>
+              setSelectedDate(dayjs(newValue).toISOString())
+            }
+            sx={{ width: "100%" }}
+          />
+        </LocalizationProvider>
+        <MultipleSelectFieldChip
+          schedules={schedules}
+          selectedScheduleIds={selectedSchedulesIds}
+          setSelectedSchedulesIds={setSelectedSchedulesIds}
         />
-      </LocalizationProvider>
-      <MultipleSelectFieldChip schedules={schedules} />
+        <LoadingButton
+          size="small"
+          onClick={handleCreateDoctorSchedules}
+          loading={isLoading}
+          loadingIndicator="Loading…"
+          variant="contained"
+        >
+          <span>Submit</span>
+        </LoadingButton>
+      </Stack>
     </PHModal>
   );
 };

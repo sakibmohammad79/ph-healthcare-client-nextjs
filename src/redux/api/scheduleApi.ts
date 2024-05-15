@@ -5,7 +5,7 @@ import { baseApi } from "./baseApi";
 const scheduleApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     createSchedules: build.mutation({
-      query: (data) => ({
+      query: (data: any) => ({
         url: "/schedule",
         method: "POST",
         data,
