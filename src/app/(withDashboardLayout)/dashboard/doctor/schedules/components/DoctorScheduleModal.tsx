@@ -11,7 +11,6 @@ import { Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useCreateDoctorSchedulesMutation } from "@/redux/api/doctorScheduleApi";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 
 type TModalProps = {
   open: boolean;
@@ -25,7 +24,6 @@ const DoctorScheduleModal = ({ open, setOpen }: TModalProps) => {
   const [selectedSchedulesIds, setSelectedSchedulesIds] = useState<string[]>(
     []
   );
-  console.log(selectedSchedulesIds);
 
   const query: Record<string, any> = {};
   if (!!selectedDate) {

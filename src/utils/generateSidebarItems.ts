@@ -1,6 +1,15 @@
 import { USER_ROLE } from "@/constant/role";
 import { DrawerItems, UserRole } from "@/types";
 import DashboardIcon from "@mui/icons-material/Dashboard";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import HealingIcon from "@mui/icons-material/Healing";
+import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import MedicationIcon from "@mui/icons-material/Medication";
+import GroupIcon from "@mui/icons-material/Group";
+import PaymentIcon from "@mui/icons-material/Payment";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 
 export const drawerItems = (role: UserRole) => {
   const roleMenus: DrawerItems[] = [];
@@ -15,7 +24,7 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Manage Users",
           path: `${role}/manage-users`,
-          icon: DashboardIcon,
+          icon: GroupIcon,
         }
       );
       break;
@@ -29,27 +38,27 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Specialties",
           path: `${role}/specialties`,
-          icon: DashboardIcon,
+          icon: HealingIcon,
         },
         {
           title: "Doctors",
           path: `${role}/doctors`,
-          icon: DashboardIcon,
+          icon: LocalHospitalIcon,
         },
         {
           title: "Schedules",
           path: `${role}/schedules`,
-          icon: DashboardIcon,
+          icon: CalendarMonthIcon,
         },
         {
           title: "Appointments",
           path: `${role}/appointments`,
-          icon: DashboardIcon,
+          icon: SummarizeIcon,
         },
         {
           title: "Reviews",
           path: `${role}/reviews`,
-          icon: DashboardIcon,
+          icon: StarBorderPurple500Icon,
         }
       );
       break;
@@ -63,12 +72,12 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Schedules",
           path: `${role}/schedules`,
-          icon: DashboardIcon,
+          icon: CalendarMonthIcon,
         },
         {
           title: "Appointments",
           path: `${role}/appointments`,
-          icon: DashboardIcon,
+          icon: SummarizeIcon,
         }
       );
       break;
@@ -77,17 +86,17 @@ export const drawerItems = (role: UserRole) => {
         {
           title: "Appointments",
           path: `${role}/appointments`,
-          icon: DashboardIcon,
+          icon: SummarizeIcon,
         },
         {
           title: "Prescriptions",
           path: `${role}/prescriptions`,
-          icon: DashboardIcon,
+          icon: ReceiptLongIcon,
         },
         {
           title: "Payment History",
           path: `${role}/payment-history`,
-          icon: DashboardIcon,
+          icon: PaymentIcon,
         }
       );
       break;

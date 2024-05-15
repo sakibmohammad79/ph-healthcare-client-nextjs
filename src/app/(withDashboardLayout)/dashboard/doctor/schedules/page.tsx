@@ -6,17 +6,22 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { dateFormatter } from "@/utils/dateFormatter";
 import dayjs from "dayjs";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useGetSingleDoctorSchedulesQuery } from "@/redux/api/doctorScheduleApi";
+import {
+  useDeleteDoctorScheduleMutation,
+  useGetSingleDoctorSchedulesQuery,
+} from "@/redux/api/doctorScheduleApi";
 import { TSchdule } from "@/types/schedule";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const DoctorSchedules = () => {
+  const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const [allDoctorSchedule, setAllDoctorSchedule] = useState<any>([]);
   const { data, isLoading } = useGetSingleDoctorSchedulesQuery({});
+  const [deleteDoctorSchedule] = useDeleteDoctorScheduleMutation();
 
   const doctorSchedules = data?.doctorSchedules?.data;
-  console.log(doctorSchedules);
 
   useEffect(() => {
     const updateDate = doctorSchedules?.map((schedule: TSchdule) => {
@@ -31,8 +36,14 @@ const DoctorSchedules = () => {
     setAllDoctorSchedule(updateDate);
   }, [doctorSchedules]);
 
-  const handleScheduleDelete = async (id: string) => {
+  const handleDoctorScheduleDelete = async (id: string) => {
     try {
+      const res = await deleteDoctorSchedule(id).unwrap();
+      console.log(res);
+      if (res?.doctorId) {
+        toast.success("Doctor schedule deleted successfully!");
+        router.refresh();
+      }
     } catch (err: any) {
       console.error(err.message);
     }
@@ -54,7 +65,7 @@ const DoctorSchedules = () => {
           <Box>
             <IconButton
               sx={{ color: "red" }}
-              onClick={() => handleScheduleDelete(row?.id)}
+              onClick={() => handleDoctorScheduleDelete(row?.id)}
               aria-label="delete"
             >
               <DeleteIcon />
