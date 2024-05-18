@@ -18,24 +18,6 @@ const DoctorInformations = ({ data }: any) => {
   const formattedTime = dateFormatter(data?.createdAt);
   return (
     <>
-      <Grid item xs={12} sm={12} md={4}>
-        <Box
-          sx={{
-            height: 400,
-            width: "100%",
-            overflow: "hidden",
-            borderRadius: 1,
-            mt: 1,
-          }}
-        >
-          <Image
-            src={data?.profilePhoto}
-            alt="Doctor Image"
-            height={400}
-            width={450}
-          ></Image>
-        </Box>
-      </Grid>
       <Grid item xs={12} sm={12} md={8}>
         <Typography color="primary" component="h5" variant="h5" mb={1}>
           Personal Information
