@@ -83,7 +83,7 @@ export default function DashboardDrawer({
                 noWrap
                 component="div"
               >
-                Welcome to PH Health Care
+                Welcome to BGC Health Care
               </Typography>
             </Box>
 

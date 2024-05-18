@@ -30,7 +30,7 @@ const Sidebar = () => {
       >
         <Image src={assets.svgs.logo} alt="logo" height={40} width={40} />
         <Typography variant="h6" component="h6">
-          PH HealthCare
+          BGC HealthCare
         </Typography>
       </Stack>
       <List>

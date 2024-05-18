@@ -18,9 +18,9 @@ const Navbar = () => {
         alignItems="center"
       >
         <Typography variant="h4" component={Link} href="/" fontWeight={600}>
-          P
+          BG
           <Box component="span" color="primary.main">
-            H
+            C
           </Box>{" "}
           Health Care
         </Typography>

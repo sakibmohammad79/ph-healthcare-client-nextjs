@@ -5,14 +5,22 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import HealingIcon from "@mui/icons-material/Healing";
 import StarBorderPurple500Icon from "@mui/icons-material/StarBorderPurple500";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import MedicationIcon from "@mui/icons-material/Medication";
 import GroupIcon from "@mui/icons-material/Group";
 import PaymentIcon from "@mui/icons-material/Payment";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import SummarizeIcon from "@mui/icons-material/Summarize";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export const drawerItems = (role: UserRole) => {
   const roleMenus: DrawerItems[] = [];
+
+  const deafaultMenus = [
+    {
+      title: "Profile",
+      path: `${role}/profile`,
+      icon: AccountCircleIcon,
+    },
+  ];
   switch (role) {
     case USER_ROLE.SUPER_ADMIN:
       roleMenus.push(
@@ -104,5 +112,5 @@ export const drawerItems = (role: UserRole) => {
     default:
       break;
   }
-  return [...roleMenus];
+  return [...roleMenus, ...deafaultMenus];
 };
