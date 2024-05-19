@@ -21,6 +21,7 @@ const UpdateDoctorPage = ({ params }: TParams) => {
   const id = params?.doctorId;
 
   const { data, isLoading } = useGetSingleDoctorQuery(id);
+
   const [updateDoctor] = useUpdateDoctorMutation();
   const router = useRouter();
 

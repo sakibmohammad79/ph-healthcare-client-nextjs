@@ -3,7 +3,7 @@
 import { CloudUpload as CloudUploadIcon } from "@mui/icons-material";
 import * as React from "react";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Box, Grid, Stack, Typography, styled } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography, styled } from "@mui/material";
 import Image from "next/image";
 import DoctorInformations from "./components/DoctorInformations";
 import AutoFileUploader from "@/components/Forms/AutoFileUploader";
@@ -11,11 +11,15 @@ import {
   useGetMyProfileQuery,
   useUpdateMyProfileMutation,
 } from "@/redux/api/myProfileApi";
+import DoctorProfileUpdateModal from "./components/DoctorProfileUpdateModal";
+import EditIcon from "@mui/icons-material/Edit";
 
 const DoctorProfile = () => {
   const { data, isLoading } = useGetMyProfileQuery({});
   const [updateMyProfile, { isLoading: isUploading }] =
     useUpdateMyProfileMutation();
+
+  const [isModalOpen, SetIsModalOpen] = React.useState<boolean>(false);
 
   if (isLoading) {
     return (
@@ -29,7 +33,6 @@ const DoctorProfile = () => {
     formData.append("file", file);
     formData.append("data", JSON.stringify({}));
     const res = await updateMyProfile(formData);
-    console.log(res);
   };
   return (
     <Box>
@@ -57,9 +60,6 @@ const DoctorProfile = () => {
           {isUploading ? (
             <Box
               sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
                 mt: 2,
               }}
             >
@@ -74,10 +74,20 @@ const DoctorProfile = () => {
                 onFileUpload={fileUploadHandler}
                 variant="text"
               ></AutoFileUploader>
+              <DoctorProfileUpdateModal
+                id={data?.id}
+                open={isModalOpen}
+                setOpen={SetIsModalOpen}
+              ></DoctorProfileUpdateModal>
+              <Button
+                endIcon={<EditIcon />}
+                onClick={() => SetIsModalOpen(true)}
+              >
+                Update Profile
+              </Button>
             </Box>
           )}
         </Grid>
-
         <DoctorInformations data={data}></DoctorInformations>
       </Grid>
     </Box>
