@@ -2,21 +2,26 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import { PHSelect } from "@/components/Forms/PHSelect";
 import PHFullScreenModal from "@/components/Shared/PHFullScreenModal/PHFullScreenModal";
-import { useGetSingleDoctorQuery } from "@/redux/api/doctorsApi";
+import {
+  useGetSingleDoctorQuery,
+  useUpdateDoctorMutation,
+} from "@/redux/api/doctorsApi";
 import { genderItem } from "@/types";
 import { Box, Button, Grid } from "@mui/material";
 import React, { useState } from "react";
 import { FieldValues } from "react-hook-form";
 import MultipleSelectChip from "./MultipleSelectChip";
 import { useGetAllSpecialiesQuery } from "@/redux/api/specialtiesApi";
+import { toast } from "sonner";
 type TModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   id: string;
 };
 const DoctorProfileUpdateModal = ({ open, setOpen, id }: TModalProps) => {
-  const { data: doctorData, isLoading } = useGetSingleDoctorQuery(id);
+  const { data: doctorData } = useGetSingleDoctorQuery(id);
   const { data: allSpecialties } = useGetAllSpecialiesQuery({});
+  const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
   const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
 
   const handleDoctorUpdate = async (values: FieldValues) => {
@@ -24,6 +29,7 @@ const DoctorProfileUpdateModal = ({ open, setOpen, id }: TModalProps) => {
       specialtiesId,
       isDeleted: false,
     }));
+
     const excluedFields: Array<keyof typeof values> = [
       "id",
       "email",
@@ -41,10 +47,24 @@ const DoctorProfileUpdateModal = ({ open, setOpen, id }: TModalProps) => {
       "doctorSpecialties",
     ];
 
-    const updatedValues = Object.entries(values).filter(([key]) => {
-      return !excluedFields.includes(key);
-    });
-    console.log(updatedValues);
+    const updatedValues = Object.fromEntries(
+      Object.entries(values).filter(([key]) => {
+        return !excluedFields.includes(key);
+      })
+    );
+    updatedValues.appointmentFee = Number(updatedValues.appointmentFee);
+    updatedValues.experience = Number(updatedValues.experience);
+    updatedValues.specialties = specialties;
+
+    try {
+      const res = await updateDoctor({ body: updatedValues, id }).unwrap();
+      if (res?.id) {
+        toast.success("Doctor information update success!");
+        setOpen(false);
+      }
+    } catch (err: any) {
+      console.log(err.message);
+    }
   };
   return (
     <PHFullScreenModal open={open} setOpen={setOpen} title="Update Profile">
@@ -134,7 +154,9 @@ const DoctorProfileUpdateModal = ({ open, setOpen, id }: TModalProps) => {
           </Grid>
         </Grid>
         <Box mt={4} textAlign="end">
-          <Button type="submit">Update</Button>
+          <Button disabled={updating} type="submit">
+            Update
+          </Button>
         </Box>
       </PHForm>
     </PHFullScreenModal>
