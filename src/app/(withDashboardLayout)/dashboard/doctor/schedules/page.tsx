@@ -19,6 +19,7 @@ import {
 import { TSchdule } from "@/types/schedule";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import MoreTimeIcon from "@mui/icons-material/MoreTime";
 
 const DoctorSchedules = () => {
   const router = useRouter();
@@ -101,7 +102,9 @@ const DoctorSchedules = () => {
 
   return (
     <Box>
-      <Button onClick={() => setIsModalOpen(true)}>Create Schedules</Button>
+      <Button endIcon={<MoreTimeIcon />} onClick={() => setIsModalOpen(true)}>
+        Create Schedules
+      </Button>
       <DoctorScheduleModal
         open={isModalOpen}
         setOpen={setIsModalOpen}
@@ -125,6 +128,7 @@ const DoctorSchedules = () => {
                       }}
                     >
                       <Pagination
+                        color="primary"
                         count={pageCount}
                         page={page}
                         onChange={handleChange}
