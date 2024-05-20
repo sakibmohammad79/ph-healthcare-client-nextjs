@@ -1,7 +1,4 @@
-import { authKey } from "@/constant/authKey";
-import { redirect } from "next/navigation";
 import { FieldValues } from "react-hook-form";
-import { cookies } from "next/headers";
 import setAccessToken from "./setAccessToken";
 
 export const loginPatient = async (data: FieldValues) => {
