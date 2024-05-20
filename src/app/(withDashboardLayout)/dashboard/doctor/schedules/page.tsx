@@ -1,5 +1,11 @@
 "use client";
-import { Box, Button, CircularProgress, IconButton } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  Pagination,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import DoctorScheduleModal from "./components/DoctorScheduleModal";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -17,12 +23,19 @@ import { useRouter } from "next/navigation";
 const DoctorSchedules = () => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const query: Record<string, any> = {};
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(2);
+  query["page"] = page;
+  query["limit"] = limit;
   const [allDoctorSchedule, setAllDoctorSchedule] = useState<any>([]);
-  const { data, isLoading } = useGetSingleDoctorSchedulesQuery({});
+  const { data, isLoading } = useGetSingleDoctorSchedulesQuery({ ...query });
+
+  const meta = data?.doctorSchedules?.meta;
+
   const [deleteDoctorSchedule] = useDeleteDoctorScheduleMutation();
 
   const doctorSchedules = data?.doctorSchedules?.data;
-
   useEffect(() => {
     const updateDate = doctorSchedules?.map((schedule: TSchdule) => {
       return {
@@ -75,6 +88,17 @@ const DoctorSchedules = () => {
       },
     },
   ];
+
+  let pageCount: number;
+
+  if (meta) {
+    pageCount = Math.ceil(meta.total / limit);
+  }
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
   return (
     <Box>
       <Button onClick={() => setIsModalOpen(true)}>Create Schedules</Button>
@@ -89,7 +113,26 @@ const DoctorSchedules = () => {
             <DataGrid
               rows={allDoctorSchedule ?? []}
               columns={columns}
-              hideFooter
+              hideFooterPagination
+              slots={{
+                footer: () => {
+                  return (
+                    <Box
+                      mb={2}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Pagination
+                        count={pageCount}
+                        page={page}
+                        onChange={handleChange}
+                      />
+                    </Box>
+                  );
+                },
+              }}
             />
           </Box>
         ) : (
