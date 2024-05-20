@@ -8,7 +8,7 @@ import {
 } from "@/redux/api/doctorsApi";
 import { genderItem } from "@/types";
 import { Box, Button, Grid } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
 import MultipleSelectChip from "./MultipleSelectChip";
 import { useGetAllSpecialiesQuery } from "@/redux/api/specialtiesApi";
@@ -19,10 +19,22 @@ type TModalProps = {
   id: string;
 };
 const DoctorProfileUpdateModal = ({ open, setOpen, id }: TModalProps) => {
-  const { data: doctorData } = useGetSingleDoctorQuery(id);
+  const { data: doctorData, refetch, isSuccess } = useGetSingleDoctorQuery(id);
   const { data: allSpecialties } = useGetAllSpecialiesQuery({});
   const [updateDoctor, { isLoading: updating }] = useUpdateDoctorMutation();
   const [selectedSpecialtiesIds, setSelectedSpecialtiesIds] = useState([]);
+
+  useEffect(() => {
+    if (!isSuccess) {
+      return;
+    } else {
+      setSelectedSpecialtiesIds(
+        doctorData?.doctorSpecialties.map((sp: any) => {
+          return sp.specialtiesId;
+        })
+      );
+    }
+  }, [isSuccess, doctorData]);
 
   const handleDoctorUpdate = async (values: FieldValues) => {
     const specialties = selectedSpecialtiesIds.map((specialtiesId: string) => ({
@@ -60,6 +72,7 @@ const DoctorProfileUpdateModal = ({ open, setOpen, id }: TModalProps) => {
       const res = await updateDoctor({ body: updatedValues, id }).unwrap();
       if (res?.id) {
         toast.success("Doctor information update success!");
+        refetch();
         setOpen(false);
       }
     } catch (err: any) {
