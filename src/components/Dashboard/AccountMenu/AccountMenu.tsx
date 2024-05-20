@@ -11,6 +11,7 @@ import Logout from "@mui/icons-material/Logout";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { removeUser } from "@/services/auth.services";
 import { useRouter } from "next/navigation";
+import { logOutUser } from "@/services/actions/logOutUser";
 
 export default function AccountMenu() {
   const router = useRouter();
@@ -25,8 +26,7 @@ export default function AccountMenu() {
 
   const handleLogOut = () => {
     setAnchorEl(null);
-    removeUser();
-    router.push("/login");
+    logOutUser(router);
   };
   return (
     <React.Fragment>
