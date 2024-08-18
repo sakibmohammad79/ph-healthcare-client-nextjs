@@ -1,5 +1,6 @@
 import { tagTypes } from "../tag-types";
 import { baseApi } from "./baseApi";
+const AUTH_URL = "/auth";
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -13,7 +14,7 @@ export const authApi = baseApi.injectEndpoints({
     //   }),
     changePassword: build.mutation({
       query: (data) => ({
-        url: "/auth/change-password",
+        url: `${AUTH_URL}/change-password`,
         method: "POST",
         contentType: "application/json",
         data: data,

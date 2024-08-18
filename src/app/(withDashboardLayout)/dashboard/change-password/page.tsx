@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { logOutUser } from "@/services/actions/logOutUser";
 import { useChangePasswordMutation } from "@/redux/api/authApi";
+import Link from "next/link";
 
 const validationSchema = z.object({
   oldPassword: z.string().min(6, "Must be at least 6 characters long"),
@@ -23,6 +24,7 @@ const ChangePassword = () => {
   const onSubmit = async (values: FieldValues) => {
     try {
       const res = await changePassword(values).unwrap();
+      console.log(res);
 
       if (res?.message === "Password change successfully!") {
         logOutUser(router);
@@ -63,6 +65,7 @@ const ChangePassword = () => {
         >
           <KeyIcon sx={{ color: "primary.main" }} />
         </Box>
+
         <Typography variant="h5" fontWeight={600} sx={{ mb: 2, mt: -1.5 }}>
           Change password
         </Typography>

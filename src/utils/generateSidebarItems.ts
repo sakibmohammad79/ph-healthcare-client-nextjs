@@ -68,12 +68,12 @@ export const drawerItems = (role: UserRole) => {
           title: "Appointments",
           path: `${role}/appointments`,
           icon: SummarizeIcon,
-        },
-        {
-          title: "Reviews",
-          path: `${role}/reviews`,
-          icon: StarBorderPurple500Icon,
         }
+        // {
+        //   title: "Reviews",
+        //   path: `${role}/reviews`,
+        //   icon: StarBorderPurple500Icon,
+        // }
       );
       break;
     case USER_ROLE.DOCTOR:
@@ -87,12 +87,12 @@ export const drawerItems = (role: UserRole) => {
           title: "Schedules",
           path: `${role}/schedules`,
           icon: CalendarMonthIcon,
-        },
-        {
-          title: "Appointments",
-          path: `${role}/appointments`,
-          icon: SummarizeIcon,
         }
+        // {
+        //   title: "Appointments",
+        //   path: `${role}/appointments`,
+        //   icon: SummarizeIcon,
+        // }
       );
       break;
     case USER_ROLE.PATIENT:
@@ -102,11 +102,11 @@ export const drawerItems = (role: UserRole) => {
           path: `${role}/appointments`,
           icon: SummarizeIcon,
         },
-        {
-          title: "Prescriptions",
-          path: `${role}/prescriptions`,
-          icon: ReceiptLongIcon,
-        },
+        // {
+        //   title: "Prescriptions",
+        //   path: `${role}/prescriptions`,
+        //   icon: ReceiptLongIcon,
+        // },
         {
           title: "Payment History",
           path: `${role}/payment-history`,

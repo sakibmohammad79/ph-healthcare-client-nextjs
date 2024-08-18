@@ -1,4 +1,3 @@
-import { genderItem } from "@/types";
 import { MenuItem, Select, SxProps, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 

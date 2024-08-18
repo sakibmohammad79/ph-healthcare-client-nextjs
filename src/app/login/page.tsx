@@ -29,7 +29,6 @@ const validationSchema = z.object({
 
 const LoginPage = () => {
   const [error, setError] = useState("");
-  const router = useRouter();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await loginPatient(data);
@@ -111,7 +110,7 @@ const LoginPage = () => {
                   />
                 </Grid>
               </Grid>
-              <Link href="/forgotpassword">
+              <Link href="/forgot-password">
                 <Typography
                   textAlign="end"
                   mt={1}
