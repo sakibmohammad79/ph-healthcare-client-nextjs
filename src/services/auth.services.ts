@@ -11,14 +11,32 @@ export const storeUserInfo = (accessToken: string) => {
   return setToLocalStorage(authKey, accessToken);
 };
 
+// export const getuserInfo = () => {
+//   const authToken = getFromLocalStorage(authKey);
+//   if (authToken) {
+//     const decodedData: any = decodedToken(authToken);
+//     return {
+//       ...decodedData,
+//       role: decodedData?.role.toLowerCase(),
+//     };
+//   }
+// };
 export const getuserInfo = () => {
   const authToken = getFromLocalStorage(authKey);
-  if (authToken) {
+  if (!authToken) {
+    console.error("No token found");
+    return null;
+  }
+
+  try {
     const decodedData: any = decodedToken(authToken);
     return {
       ...decodedData,
       role: decodedData?.role.toLowerCase(),
     };
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return null;
   }
 };
 

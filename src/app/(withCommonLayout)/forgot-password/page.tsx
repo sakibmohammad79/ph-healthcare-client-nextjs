@@ -9,25 +9,23 @@ import PHForm from "@/components/Forms/PHForm";
 import PHInput from "@/components/Forms/PHInput";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useForgotPasswordMutation } from "@/redux/api/authApi";
 
 const validationSchema = z.object({
   email: z.string().email("Enter a valid email address!"),
 });
 
-const forgotPasswordPage = () => {
+const ForgotPasswordPage = () => {
+  const [forgotPassword] = useForgotPasswordMutation();
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-    // try {
-    //   const res = await loginPatient(data);
-    //   if (res?.data?.accessToken) {
-    //     toast.success(res.message);
-    //     storeUserInfo(res?.data?.accessToken);
-    //   } else {
-    //     setError(res?.message);
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error.message);
-    // }
+    try {
+      const res = await forgotPassword(data);
+      // console.log(res);
+
+      toast.success("Check your email for set new password!");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -83,4 +81,4 @@ const forgotPasswordPage = () => {
   );
 };
 
-export default forgotPasswordPage;
+export default ForgotPasswordPage;

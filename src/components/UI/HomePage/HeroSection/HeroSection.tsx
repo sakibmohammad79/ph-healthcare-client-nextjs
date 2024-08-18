@@ -1,7 +1,6 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import Image from "next/image";
 import assets from "@/assets/index";
-import { relative } from "path";
 
 const HeroSection = () => {
   return (
